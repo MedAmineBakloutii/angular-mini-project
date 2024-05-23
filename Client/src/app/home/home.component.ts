@@ -42,7 +42,6 @@ export class HomeComponent {
     if (!product.id) {
       return;
     }
-
     this.deleteProduct(product.id);
   }
 

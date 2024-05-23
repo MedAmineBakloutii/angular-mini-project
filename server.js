@@ -48,19 +48,9 @@ app.get("/clothes", (req, res) => {
   });
 });
 
-// POST route - Allows to add a new item
-// example: localhost:3000/clothes
-/*
-  body: {
-    "image": "https://your-image-url.com/image.png",
-    "name": "T-shirt",
-    "price": "10",
-    "rating": 4
-  }
-*/
+
 app.post("/clothes", (req, res) => {
   const { image, name, price, rating } = req.body;
-
   fs.readFile("db.json", "utf8", (err, data) => {
     if (err) {
       console.log(err);
@@ -74,7 +64,6 @@ app.post("/clothes", (req, res) => {
       (max, item) => Math.max(max, item.id),
       0
     );
-
     const newItem = {
       id: maxId + 1,
       image,
@@ -82,31 +71,18 @@ app.post("/clothes", (req, res) => {
       price,
       rating,
     };
-
     jsonData.items.push(newItem);
-
     fs.writeFile("db.json", JSON.stringify(jsonData), (err) => {
       if (err) {
         console.log(err);
         res.status(500).send("Internal Server Error");
         return;
       }
-
       res.status(201).json(newItem);
     });
   });
 });
 
-// PUT route - Allows to update an item
-// example: localhost:3000/clothes/1
-/*
-  body: {
-    "image": "https://your-image-url.com/image.png",
-    "name": "T-shirt",
-    "price": "10",
-    "rating": 4
-  }
-*/
 app.put("/clothes/:id", (req, res) => {
   const id = parseInt(req.params.id);
   const { image, name, price, rating } = req.body;
@@ -147,8 +123,6 @@ app.put("/clothes/:id", (req, res) => {
   });
 });
 
-// DELETE route - Allows to delete an item
-// example: localhost:3000/clothes/1
 app.delete("/clothes/:id", (req, res) => {
   const id = parseInt(req.params.id);
 
